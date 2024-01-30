@@ -1,0 +1,15 @@
+{
+  "Native Stack Snippet Generation": {
+    "prefix": "nativestack",
+    "body": [
+      "import {NativeStackNavigationProp} from '@react-navigation/native-stack';",
+      "import {RootStackParamList} from '../../../App';",
+      "",
+      "interface NavigationProps {",
+      "  navigation: NativeStackNavigationProp<RootStackParamList, '$1'>;",
+      "}",
+      ""
+    ],
+    "description": "Native Stack Snippet Generation"
+  }
+}
