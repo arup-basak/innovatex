@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { PaperProvider } from "react-native-paper";
 import { createTable as createGlassTable } from "../utils/sqlite/glass_count";
 import { createTable as createWeightTable } from "../utils/sqlite/weight";
 
@@ -8,8 +9,8 @@ interface Props {
 
 export default function Provider({ children }: Props) {
   useEffect(() => {
-    createGlassTable()
-    createWeightTable()
+    createGlassTable();
+    createWeightTable();
   }, []);
-  return <>{children}</>;
+  return <PaperProvider>{children}</PaperProvider>;
 }

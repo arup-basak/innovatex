@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { PaperProvider } from "react-native-paper";
 import { IconButton } from "react-native-paper";
+import Provider from "./src/components/Provider";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 //screens
 import Register from "./src/screens/onboarding/RegisterScreen";
@@ -34,10 +35,26 @@ type RootStackParamList = {
 };
 
 export default function App() {
+  const [initialRoute, setInitialRoute] = useState("RegisterScreen");
+
+  const getInitialRouteName = async () => {
+    try {
+      const value = await AsyncStorage.getItem("main-goal");
+      if (value !== null) {
+        ("DashboardScreen");
+      }
+    } catch (e) {
+      return "RegisterScreen";
+    }
+  };
+
+  useEffect(() => {
+    getInitialRouteName();
+  }, []);
   return (
-    <PaperProvider>
+    <Provider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="DashboardScreen">
+        <Stack.Navigator initialRouteName="WeightSelectorScreen">
           <Stack.Screen
             component={DashboardScreen}
             name="DashboardScreen"
@@ -63,7 +80,7 @@ export default function App() {
           <Stack.Screen component={TimerScreen} name="TimerScreen" />
         </Stack.Navigator>
       </NavigationContainer>
-    </PaperProvider>
+    </Provider>
   );
 }
 

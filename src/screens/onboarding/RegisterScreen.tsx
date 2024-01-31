@@ -1,29 +1,28 @@
+import React, { useState } from "react";
 import { StyleSheet } from "react-native";
-import React from "react";
 import { Surface, TextInput, IconButton } from "react-native-paper";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../../App";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import QuestionInput from "../../components/QuestionInput";
 
 interface NavigationProps {
   navigation: NativeStackNavigationProp<RootStackParamList, "RegisterScreen">;
 }
 
 export default function RegisterScreen({ navigation }: NavigationProps) {
+  const [value, setValue] = useState("");
+  const handleClick = async () => {
+    try {
+      await AsyncStorage.setItem("user-name", value);
+      navigation.navigate("MainGoalSelector");
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <Surface style={styles.container}>
-      <TextInput
-        mode="outlined"
-        style={styles.textInputContainer}
-        label="Enter Your Name"
-      />
-      <IconButton
-        icon="chevron-right"
-        onPress={() => navigation.navigate("MainGoalSelector")}
-        size={32}
-        containerColor="#3d0069"
-        iconColor="#eb376d"
-        rippleColor="#ce9ef0"
-      />
+      <QuestionInput handleClick={handleClick} label="Enter Your Name" />
     </Surface>
   );
 }
@@ -31,10 +30,5 @@ export default function RegisterScreen({ navigation }: NavigationProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-  },
-  textInputContainer: {
-    margin: 12,
-    width: 200,
   },
 });

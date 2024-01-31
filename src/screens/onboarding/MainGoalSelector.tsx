@@ -3,15 +3,16 @@ import { StyleSheet, View } from "react-native";
 import { Surface, TouchableRipple, Text } from "react-native-paper";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../../App";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface NavigationProps {
   navigation: NativeStackNavigationProp<RootStackParamList, "MainGoalSelector">;
 }
 
 interface Goal {
-    label: string;
-    route: keyof RootStackParamList; 
-  }
+  label: string;
+  route: keyof RootStackParamList;
+}
 
 const goals: Goal[] = [
   { label: "Health", route: "WeightSelectorScreen" },
@@ -20,13 +21,21 @@ const goals: Goal[] = [
 ];
 
 export default function MainGoalSelector({ navigation }: NavigationProps) {
+  const storeData = async (goal: Goal) => {
+    try {
+      await AsyncStorage.setItem("main-goal", goal.label);
+      navigation.navigate(goal.route);
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <Surface style={styles.container}>
       {goals.map((goal, index) => (
         <TouchableRipple
           key={index}
           style={styles.touchableRipple}
-          onPress={() => navigation.navigate(goal.route)}
+          onPress={() => storeData(goal)}
         >
           <View>
             <Text>{goal.label}</Text>
