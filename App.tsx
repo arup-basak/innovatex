@@ -12,6 +12,7 @@ import WeightSelectorScreen from "./src/screens/onboarding/HealthSelector/Weight
 import DashboardScreen from "./src/screens/dashboard/DashboardScreen";
 import SettingsScreen from "./src/screens/SettingsScreen";
 import { IconButton } from "react-native-paper";
+import WeightView from "./src/screens/analytics/WeightView";
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,7 @@ type RootStackParamList = {
   WeightSelectorScreen: undefined;
   DashboardScreen: undefined;
   SettingsScreen: undefined;
+  WeightView: undefined;
 };
 
 export default function App() {
@@ -34,7 +36,7 @@ export default function App() {
             component={DashboardScreen}
             name="DashboardScreen"
             options={{
-              headerRight: ({}) => <IconButton icon="cog" onPress={() => {}}/>,
+              headerRight: ({}) => <IconButton icon="cog" onPress={() => {}} />,
             }}
           />
           <Stack.Screen component={Register} name="RegisterScreen" />
@@ -48,6 +50,7 @@ export default function App() {
             component={WeightSelectorScreen}
             name="WeightSelectorScreen"
           />
+          <Stack.Screen component={WeightView} name="WeightView" />
         </Stack.Navigator>
 
         <Stack.Screen component={SettingsScreen} name="SettingsScreen" />
