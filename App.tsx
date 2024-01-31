@@ -15,6 +15,7 @@ import SettingsScreen from "./src/screens/SettingsScreen";
 import WeightView from "./src/screens/analytics/WeightView";
 import WaterView from "./src/screens/analytics/WaterView";
 import SleepView from "./src/screens/analytics/SleepView";
+import TimerScreen from "./src/screens/TimerScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,7 @@ type RootStackParamList = {
   WeightView: undefined;
   WaterView: undefined;
   SleepView: undefined;
+  TimerScreen: undefined;
 };
 
 export default function App() {
@@ -58,6 +60,7 @@ export default function App() {
           <Stack.Screen component={WaterView} name="WaterView" />
           <Stack.Screen component={SettingsScreen} name="SettingsScreen" />
           <Stack.Screen component={SleepView} name="SleepView" />
+          <Stack.Screen component={TimerScreen} name="TimerScreen" />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>
