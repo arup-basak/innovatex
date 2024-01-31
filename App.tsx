@@ -2,6 +2,7 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { PaperProvider } from "react-native-paper";
+import { IconButton } from "react-native-paper";
 
 //screens
 import Register from "./src/screens/onboarding/RegisterScreen";
@@ -11,8 +12,9 @@ import StudyStatusScreen from "./src/screens/onboarding/EducationSelector/StudyS
 import WeightSelectorScreen from "./src/screens/onboarding/HealthSelector/WeightSelectorScreen";
 import DashboardScreen from "./src/screens/dashboard/DashboardScreen";
 import SettingsScreen from "./src/screens/SettingsScreen";
-import { IconButton } from "react-native-paper";
 import WeightView from "./src/screens/analytics/WeightView";
+import WaterView from "./src/screens/analytics/WaterView";
+import SleepView from "./src/screens/analytics/SleepView";
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +27,8 @@ type RootStackParamList = {
   DashboardScreen: undefined;
   SettingsScreen: undefined;
   WeightView: undefined;
+  WaterView: undefined;
+  SleepView: undefined;
 };
 
 export default function App() {
@@ -51,9 +55,10 @@ export default function App() {
             name="WeightSelectorScreen"
           />
           <Stack.Screen component={WeightView} name="WeightView" />
+          <Stack.Screen component={WaterView} name="WaterView" />
+          <Stack.Screen component={SettingsScreen} name="SettingsScreen" />
+          <Stack.Screen component={SleepView} name="SleepView" />
         </Stack.Navigator>
-
-        <Stack.Screen component={SettingsScreen} name="SettingsScreen" />
       </NavigationContainer>
     </PaperProvider>
   );
