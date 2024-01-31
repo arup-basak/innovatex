@@ -14,36 +14,30 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { LineChart } from "react-native-chart-kit";
 import { RootStackParamList } from "../../../App";
 import { formatDateShortMonth } from "../../utils/date";
-import * as SQLite from "expo-sqlite";
-
+import {
+  createTable,
+  checkLatestWeight,
+  addNewWeightValue,
+  weightHistory,
+} from "../../utils/sqlite/weight";
 interface NavigationProps {
   navigation: NativeStackNavigationProp<RootStackParamList, "WeightView">;
 }
 
-interface GraphInterface {
-  date: string;
-  value: number;
-}
-
 export default function WeightView({ navigation }: NavigationProps) {
-  const db = SQLite.openDatabase("user-data", "1");
-  const [values, setValues] = useState<GraphInterface[]>([]);
+  const [values, setValues] = useState<any[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [inputValue, setInputValue] = useState("");
 
-  const dd = async () => {
-    const readOnly = false;
-    await db.transactionAsync(async (tx) => {
-      const result = await tx.executeSqlAsync(
-        "SELECT COUNT(*) FROM WEIGHTDATA",
-        []
-      );
-      console.log("Count:", result.rows[0]["COUNT(*)"]);
-    }, readOnly);
-  };
-
   useEffect(() => {
-    dd();
+    createTable();
+    weightHistory().then((resp) => {
+      if (resp) {
+        console.log(resp)
+        const data = resp.map((item) => delete item.id);
+        setValues(data);
+      }
+    });
   }, []);
 
   const handleSubmit = () => {
@@ -52,7 +46,7 @@ export default function WeightView({ navigation }: NavigationProps) {
         ...values,
         {
           date: new Date().toLocaleDateString("en-GB"),
-          value: parseInt(inputValue),
+          weight_value: parseInt(inputValue),
         },
       ]);
       setInputValue("");
@@ -65,7 +59,7 @@ export default function WeightView({ navigation }: NavigationProps) {
     labels: values.map((data) => formatDateShortMonth(data.date)),
     datasets: [
       {
-        data: values.map((data) => data.value),
+        data: values.map((data) => data.weight_value),
       },
     ],
   };
@@ -99,7 +93,7 @@ export default function WeightView({ navigation }: NavigationProps) {
           <View style={styles.cardView}>
             <Text style={styles.currentValue}>
               {`${
-                values.length > 1 ? values[values.length - 1].value : "0"
+                values.length > 1 ? values[values.length - 1].weight_value : "0"
               } kg`}
             </Text>
             <IconButton

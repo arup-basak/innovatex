@@ -8,4 +8,6 @@ const formatDateShortMonth = (inputDate: string) => {
   return formattedDate;
 };
 
-export { formatDateShortMonth };
+const currentDate = new Date().toISOString().slice(0, 10);
+
+export { formatDateShortMonth, currentDate };
